@@ -2,12 +2,12 @@
   {
     "id": "cipher",
     "kind": "game",
-    "title": "Cipher",
+    "title": "Cipher - A daily word guessing game (everybody gets the same word daily)",
     "tag": "NEW GAME",
     "date": "2026-06-29",
     "dateLabel": "June 29, 2026",
     "path": "games/cipher.html",
-    "description": "A daily five-letter word puzzle in six guesses."
+    "description": "A daily word guessing game where everybody gets the same word each day."
   },
   {
     "id": "10-dollars-to-hate-someone",
