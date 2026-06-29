@@ -199,7 +199,7 @@ function renderArticlesFeed(entries) {
 }
 
 function renderFeedEntry(entry, listOnlyArticles) {
-    if (entry.kind === 'article') {
+    if (entry.kind === 'article' || entry.kind === 'game') {
         return `
             <a href="${rootPrefix}${entry.path}" class="article-item fade-in">
                 <span class="article-tag">${entry.tag}</span>
