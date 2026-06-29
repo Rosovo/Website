@@ -14,6 +14,21 @@
    
    ============================================================ */
 
+const hoverInfoRepositioners = [];
+let hoverInfoGlobalEventsBound = false;
+
+function sanitizeHoverInfoUrl(url) {
+  try {
+    const parsed = new URL(url, window.location.href);
+    if (['http:', 'https:', 'mailto:'].includes(parsed.protocol)) {
+      return parsed.href;
+    }
+  } catch (_error) {
+    return '';
+  }
+  return '';
+}
+
 function initHoverInfo() {
   document.querySelectorAll('.hover-info').forEach(el => {
     // Skip if already initialized
@@ -26,32 +41,74 @@ function initHoverInfo() {
     const linkLabel = el.dataset.linkLabel || 'Learn more';
     const img       = el.dataset.img       || '';
 
-    const hasImg  = img.trim().length > 0;
-    const hasLink = link.trim().length > 0;
+    const hasImg = img.trim().length > 0;
+    const safeLink = sanitizeHoverInfoUrl(link.trim());
+    const hasLink = safeLink.length > 0;
 
     // Build the card
     const card = document.createElement('div');
     card.className = 'hover-info__card';
     card.setAttribute('role', 'tooltip');
 
-    card.innerHTML = `
-      <button class="hover-info__close" aria-label="Close info card">&#x2715;</button>
-      <div class="hover-info__body">
-        <div class="hover-info__text-col">
-          <div class="hover-info__title">${title}</div>
-          <div class="hover-info__desc">${desc}</div>
-          ${hasLink
-            ? `<a class="hover-info__link" href="${link}" target="_blank" rel="noopener noreferrer">
-                 ${linkLabel} <span aria-hidden="true">&#x2197;</span>
-               </a>`
-            : ''}
-        </div>
-        <div class="hover-info__img-col${hasImg ? '' : ' no-img'}">
-          ${hasImg ? `<img src="${img}" alt="" loading="lazy">` : ''}
-        </div>
-      </div>
-      <div class="hover-info__arrow" aria-hidden="true"></div>
-    `;
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'hover-info__close';
+    closeBtn.setAttribute('aria-label', 'Close info card');
+    closeBtn.textContent = '✕';
+
+    const body = document.createElement('div');
+    body.className = 'hover-info__body';
+
+    const textCol = document.createElement('div');
+    textCol.className = 'hover-info__text-col';
+
+    const titleEl = document.createElement('div');
+    titleEl.className = 'hover-info__title';
+    titleEl.textContent = title;
+
+    const descEl = document.createElement('div');
+    descEl.className = 'hover-info__desc';
+    descEl.textContent = desc;
+
+    textCol.appendChild(titleEl);
+    textCol.appendChild(descEl);
+
+    if (hasLink) {
+      const linkEl = document.createElement('a');
+      linkEl.className = 'hover-info__link';
+      linkEl.href = safeLink;
+      linkEl.target = '_blank';
+      linkEl.rel = 'noopener noreferrer';
+      linkEl.textContent = linkLabel;
+
+      const arrowMark = document.createElement('span');
+      arrowMark.setAttribute('aria-hidden', 'true');
+      arrowMark.textContent = '↗';
+      linkEl.appendChild(document.createTextNode(' '));
+      linkEl.appendChild(arrowMark);
+
+      textCol.appendChild(linkEl);
+    }
+
+    const imgCol = document.createElement('div');
+    imgCol.className = `hover-info__img-col${hasImg ? '' : ' no-img'}`;
+    if (hasImg) {
+      const imgEl = document.createElement('img');
+      imgEl.src = img;
+      imgEl.alt = '';
+      imgEl.loading = 'lazy';
+      imgCol.appendChild(imgEl);
+    }
+
+    body.appendChild(textCol);
+    body.appendChild(imgCol);
+
+    const arrow = document.createElement('div');
+    arrow.className = 'hover-info__arrow';
+    arrow.setAttribute('aria-hidden', 'true');
+
+    card.appendChild(closeBtn);
+    card.appendChild(body);
+    card.appendChild(arrow);
 
     el.appendChild(card);
 
@@ -88,6 +145,8 @@ function initHoverInfo() {
       card.style.setProperty('--hi-arrow-offset', `${arrowOffset}px`);
     };
 
+    hoverInfoRepositioners.push({ el, setPosition });
+
     el.addEventListener('mouseenter', setPosition);
 
     // Click locks the card open
@@ -105,32 +164,35 @@ function initHoverInfo() {
     });
 
     // X button dismisses the locked card
-    card.querySelector('.hover-info__close').addEventListener('click', e => {
+    closeBtn.addEventListener('click', e => {
       e.stopPropagation();
       el.classList.remove('locked');
     });
+  });
 
-    window.addEventListener('resize', () => {
-      if (el.matches(':hover') || el.classList.contains('locked')) {
-        setPosition();
+  if (!hoverInfoGlobalEventsBound) {
+    hoverInfoGlobalEventsBound = true;
+
+    const repositionActiveCards = () => {
+      hoverInfoRepositioners.forEach(({ el, setPosition }) => {
+        if (el.matches(':hover') || el.classList.contains('locked')) {
+          setPosition();
+        }
+      });
+    };
+
+    window.addEventListener('resize', repositionActiveCards);
+    window.addEventListener('scroll', repositionActiveCards, { passive: true });
+
+    // Click anywhere outside a locked card to dismiss it
+    document.addEventListener('click', e => {
+      if (!e.target.closest('.hover-info')) {
+        document.querySelectorAll('.hover-info.locked').forEach(node => {
+          node.classList.remove('locked');
+        });
       }
     });
-
-    window.addEventListener('scroll', () => {
-      if (el.matches(':hover') || el.classList.contains('locked')) {
-        setPosition();
-      }
-    }, { passive: true });
-  });
-
-  // Click anywhere outside a locked card to dismiss it
-  document.addEventListener('click', e => {
-    if (!e.target.closest('.hover-info__card')) {
-      document.querySelectorAll('.hover-info.locked').forEach(el => {
-        el.classList.remove('locked');
-      });
-    }
-  });
+  }
 }
 
 // Auto-init on DOMContentLoaded
