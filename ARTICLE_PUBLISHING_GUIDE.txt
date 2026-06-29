@@ -1,0 +1,166 @@
+ROSOVO ARTICLE PUBLISHING GUIDE
+Last updated: 2026-06-29
+
+OVERVIEW
+This site now uses data/articles.json as the single source of truth for homepage chronology and the Articles page.
+If you publish a new article and do not add it to data/articles.json, it will not appear in feeds.
+
+================================================================
+QUICK CHECKLIST (NEW ARTICLE)
+================================================================
+1) Copy articles/article-template-v7.html to a new file in /articles.
+2) Rename to a URL-safe slug. Example:
+   articles/how-i-built-x.html
+3) In the new file, update:
+   - <title>
+   - meta description
+   - og:title
+   - og:description
+   - og:url
+   - article tag label
+   - article headline
+   - article date in .article-meta
+4) Write your content in .article-body.
+5) Update the Sources section.
+6) Add a new object to data/articles.json with kind="article".
+7) Verify the page loads and appears on index + articles pages.
+
+================================================================
+DATA FILE REFERENCE (data/articles.json)
+================================================================
+Each entry can be one of:
+- article
+- music
+- note
+
+ARTICLE ENTRY FORMAT
+{
+  "id": "unique-id",
+  "kind": "article",
+  "title": "Article Title",
+  "tag": "Essay",
+  "date": "2026-06-29",
+  "dateLabel": "June 29, 2026",
+  "path": "articles/your-article-slug.html",
+  "description": "Short summary used for organization and previews."
+}
+
+NOTES
+- Keep date in ISO format for sorting: YYYY-MM-DD.
+- dateLabel is what readers see in the UI.
+- path must be relative from site root.
+- Put newest entries near top of the array.
+
+MUSIC ENTRY FORMAT
+{
+  "id": "track-id",
+  "kind": "music",
+  "title": "Track Name",
+  "tag": "Music",
+  "date": "2026-01-01",
+  "dateLabel": "Jan 1, 2026",
+  "audioSrc": "music/Track.mp3"
+}
+
+NOTE ENTRY FORMAT
+{
+  "id": "note-id",
+  "kind": "note",
+  "title": "Short announcement text",
+  "tag": "IT'S ALIVE",
+  "date": "2026-06-27",
+  "dateLabel": "June 27, 2026"
+}
+
+================================================================
+FEATURE DOCUMENTATION
+================================================================
+
+1) SOURCES FEATURE
+- Use the <details class="sources"> block at the end of each article.
+- One source per list item:
+  <li><a href="..." target="_blank">Source text</a></li>
+- Keep source text descriptive (publication + topic).
+- This section is collapsible by default.
+
+2) HOVER INFO CARDS FEATURE
+- Include in article head (already in template):
+  <link rel="stylesheet" href="../css/hover-info.css" />
+  <script src="../js/hover-info.js" defer></script>
+
+- Inline usage:
+  <span
+    class="hover-info"
+    data-title="Short title"
+    data-desc="1-2 sentence description"
+    data-link="https://example.com"
+    data-link-label="Read more"
+    data-img="https://example.com/image.jpg"
+  >
+    highlighted phrase
+  </span>
+
+- data-link and data-img are optional.
+- Keep hover-info usage selective so it remains meaningful.
+
+3) READING TIME
+- Reading time is automatic from .article-body word count.
+- No manual editing needed.
+
+4) PREVIOUS/NEXT ARTICLE LINKS
+- Previous/next links are automatic.
+- They are based on article ordering in data/articles.json.
+- If navigation looks wrong, check JSON order.
+
+5) FADE-IN ANIMATIONS
+- Elements with class="fade-in" reveal using IntersectionObserver.
+- You do not need nth-child delay rules.
+
+6) SETTINGS TOOLBOX (GEAR ICON)
+- Gear icon in nav opens panel with:
+  - Theme toggle (light/dark)
+  - Font size slider
+- Preferences are stored in localStorage.
+
+7) MUSIC PLAYER
+- Music cards come from data/articles.json entries where kind="music".
+- Player has play/pause, progress, time, volume, and now-playing pulse.
+
+8) FOOTER
+- Footer is injected globally by JS.
+- No manual footer markup needed per page.
+
+================================================================
+SEO/SHARING CHECKLIST (PER PAGE)
+================================================================
+For every new article, verify these are correct:
+- meta name="description"
+- meta property="og:type" content="article"
+- meta property="og:title"
+- meta property="og:description"
+- meta property="og:url"
+- meta property="og:image"
+
+Also ensure:
+- sitemap.xml includes the new article URL
+- robots.txt still points to sitemap.xml
+
+================================================================
+COMMON MISTAKES TO AVOID
+================================================================
+- Forgetting to add article entry to data/articles.json.
+- Wrong relative path in article path field.
+- Mismatch between filename and og:url.
+- Overusing hover-info cards (too many distract from reading).
+- Leaving template placeholder text in title/description.
+
+================================================================
+RECOMMENDED WORKFLOW FOR EACH NEW ARTICLE
+================================================================
+1) Duplicate template.
+2) Replace metadata and header fields first.
+3) Draft content.
+4) Add sources.
+5) Add JSON entry.
+6) Load page + index + articles and verify visuals.
+7) Update sitemap.xml.

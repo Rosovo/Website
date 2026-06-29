@@ -1,0 +1,131 @@
+.article-header {
+  padding-top: 4rem;
+  margin-bottom: 3rem;
+}
+
+.article-tag-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 1.25rem;
+}
+
+.article-headline {
+  font-family: var(--mono);
+  font-size: clamp(26px, 5vw, 40px);
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.article-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 12px;
+  color: var(--text-dim);
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+}
+
+.reading-time {
+  color: var(--text-muted);
+}
+
+.article-divider {
+  width: 32px;
+  height: 1px;
+  background: var(--red);
+  margin: 2rem 0;
+}
+
+.article-body {
+  font-family: var(--serif);
+  font-size: 17px;
+  line-height: 1.85;
+  color: color-mix(in srgb, var(--text) 82%, var(--bg));
+}
+
+.article-body p {
+  margin-bottom: 1.75rem;
+}
+
+.article-body p:last-child {
+  margin-bottom: 0;
+}
+
+.article-nav {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  margin-top: 2rem;
+  border-top: 0.5px solid var(--border);
+  padding-top: 1rem;
+}
+
+.article-nav a {
+  display: block;
+  border: 0.5px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 0.9rem;
+  min-height: 68px;
+  background: linear-gradient(140deg, color-mix(in srgb, var(--surface) 60%, transparent), transparent);
+  transition: border-color 0.15s, transform 0.15s, background-color 0.15s;
+}
+
+.article-nav a:hover {
+  border-color: var(--red);
+  transform: translateY(-1px);
+  background: linear-gradient(140deg, var(--red-soft), transparent 70%);
+}
+
+.article-nav-label {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text-dim);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 0.3rem;
+}
+
+.article-nav-label::before {
+  content: attr(data-arrow);
+  margin-right: 0.25rem;
+  color: var(--red);
+}
+
+.article-nav-title {
+  display: block;
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-top: 2rem;
+  transition: color 0.15s;
+}
+
+.back-link:hover {
+  color: var(--text);
+}
+
+@media (max-width: 700px) {
+  .article-nav {
+    grid-template-columns: 1fr;
+  }
+}

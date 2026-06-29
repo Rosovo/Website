@@ -1,0 +1,126 @@
+<!doctype html>
+<!--
+  ARTICLE TEMPLATE (Rosovo)
+
+  REQUIRED STEPS FOR A NEW ARTICLE:
+  1) Duplicate this file in /articles and rename it to your slug.
+  2) Update title/description/OG tags below.
+  3) Update the article header (tag, headline, date).
+  4) Write content inside .article-body.
+  5) Update the Sources list.
+  6) Add the article to /data/articles.json (kind=article).
+
+  IMPORTANT:
+  - Homepage and Articles page are now generated from /data/articles.json.
+    Do not manually reorder article cards in index.html/articles.html.
+  - Reading time and previous/next links are generated automatically.
+-->
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="../css/hover-info.css" />
+    <script src="../js/hover-info.js" defer></script>
+    <meta name="description" content="Write a short 1-2 sentence summary of this article." />
+    <meta property="og:type" content="article" />
+    <meta
+      property="og:title"
+      content="Replace with your article title - Rosovo"
+    />
+    <meta
+      property="og:description"
+      content="Write a short social preview description for this article."
+    />
+    <meta
+      property="og:url"
+      content="https://rosovo.org/articles/replace-with-your-article-slug.html"
+    />
+    <meta
+      property="og:image"
+      content="https://rosovo.org/images/RosovoLogo.jpg"
+    />
+    <title>Replace with your article title - Rosovo</title>
+    <link rel="icon" href="../images/RosovoLogo.jpg" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../articles.html" class="active">Articles</a>
+        <a href="../games.html">Games</a>
+        <a href="../contact.html">Contact</a>
+        <a href="../about.html">About</a>
+      </div>
+      <a href="../index.html" class="logo">ROSOVO</a>
+    </nav>
+
+    <main>
+      <div class="article-header fade-in">
+        <div class="article-tag-label">Essay</div>
+        <h1 class="article-headline">Replace with your article title</h1>
+        <div class="article-meta">Rosovo &nbsp;·&nbsp; Jun 29, 2026</div>
+      </div>
+      <div class="article-divider fade-in"></div>
+
+      <div class="article-body fade-in">
+        <p>
+          Start your introduction here. Aim for a clear setup in the first two
+          paragraphs so a reader knows what they are about to get.
+        </p>
+
+        <p>
+          Add your second paragraph here. Keep paragraphs reasonably short for
+          readability on mobile.
+        </p>
+
+        <p>
+          Continue with your body. Use links to sources where useful, and list
+          complete citations in the Sources section below.
+        </p>
+
+        <p>
+          Hover info cards are useful for optional context. Example:
+          <span
+            class="hover-info"
+            data-title="Title of the thing you want highlighted"
+            data-desc="Description of the thing you want highlighted."
+            data-link="https://rosovo.org"
+            data-link-label="Optional link label"
+            data-img="https://rosovo.org/images/RosovoLogo.jpg"
+          >
+            The thing you want highlighted
+          </span>
+          .
+        </p>
+      </div>
+
+      <!--
+        SOURCES FEATURE:
+        - Keep this section for citations and references.
+        - Use one <li><a></a></li> per source.
+        - Set target="_blank" for external links.
+      -->
+
+      <details class="sources">
+        <summary>Sources</summary>
+        <ul>
+          <li>
+            <a href="https://example.com" target="_blank">
+              Replace with source title or citation text
+            </a>
+          </li>
+          <li>
+            <a href="https://example.com" target="_blank">
+              Add another source if needed
+          </li>
+        </ul>
+      </details>
+
+      <a href="../articles.html" class="back-link">← All articles</a>
+    </main>
+
+    <script src="../js/main.js"></script>
+  </body>
+</html>

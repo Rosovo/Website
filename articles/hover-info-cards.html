@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="How I built hover-info cards to add context without interrupting the reader."
+    />
+    <meta property="og:type" content="article" />
+    <meta property="og:title" content="Hover Info Cards Are Here - Rosovo" />
+    <meta
+      property="og:description"
+      content="How I built hover-info cards to add context without interrupting the reader."
+    />
+    <meta
+      property="og:url"
+      content="https://rosovo.org/articles/hover-info-cards.html"
+    />
+    <meta
+      property="og:image"
+      content="https://rosovo.org/images/RosovoLogo.jpg"
+    />
+    <link rel="stylesheet" href="../css/hover-info.css" />
+    <script src="../js/hover-info.js" defer></script>
+    <title>Hover Info Cards Are Here - Rosovo</title>
+    <link rel="icon" href="../images/RosovoLogo.jpg" />
+    <link rel="stylesheet" href="../css/style.css" />
+    <link rel="stylesheet" href="../css/article.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../articles.html" class="active">Articles</a>
+        <a href="../games.html">Games</a>
+        <a href="../contact.html">Contact</a>
+        <a href="../about.html">About</a>
+      </div>
+      <a href="../index.html" class="logo">ROSOVO</a>
+    </nav>
+
+    <main>
+      <div class="article-header fade-in">
+        <div class="article-tag-label">Field Notes</div>
+        <h1 class="article-headline">
+          I Built Hover-Info Cards So My Writing Can Breathe
+        </h1>
+        <div class="article-meta">Rosovo &nbsp;·&nbsp; June 28, 2026</div>
+      </div>
+      <div class="article-divider fade-in"></div>
+
+      <div class="article-body fade-in">
+        <p>
+          It was a quiet afternoon. I had a browser tab open to one of my older
+          articles and I was reading it back the way you sometimes do when you
+          are trying to figure out what is wrong with something you made. The
+          article was about the substance
+          <span
+            class="hover-info"
+            data-title="Kratom"
+            data-desc="A tropical tree native to Southeast Asia whose leaves have been used for centuries as a stimulant and painkiller. In the West it occupies a legal gray area and is sold in powder, capsule, and tea form."
+            data-link="https://en.wikipedia.org/wiki/Kratom"
+            data-link-label="Read on Wikipedia"
+            data-img="https://www.legacyfreedom.com/wp-content/uploads/2025/02/GettyImages-1671972541.webp"
+          >
+            Kratom.
+          </span>
+          The article was called
+          <span
+            class="hover-info"
+            data-title="What I Learned Selling a Drug That Isn't One"
+            data-desc="An essay I wrote about my first person experience of learning about the legal gray area of Kratom in the United States, its history, and its effects. The title references the common labeling of Kratom products as 'not for human consumption', which is a legal loophole that allows vendors to sell it."
+            data-link="https://rosovo.org/articles/what-i-learned-selling-a-drug-that-isnt-one.html"
+            data-link-label="Read the article on Rosovo.org"
+          >
+            "What I Learned Selling a Drug That Isn't One."
+          </span>
+          While Kratom was something I spent a lot of time around personally by
+          chance, but not everybody knows about it, and about halfway through I
+          noticed I had crammed three parenthetical asides into a single
+          sentence just to give the reader enough context to follow along. It
+          looked terrible. It read worse. It was like trying to fit a square peg
+          in a round hole. It looked like I was writing an encyclopedia entry. I
+          hated how it looked!
+        </p>
+
+        <p>
+          The problem is that I often write about things that need context. Not
+          every reader who lands on an article about the
+          <span
+            class="hover-info"
+            data-title="2026 US-Iran War Ceasefire"
+            data-desc="A ceasefire agreement brokered by international mediators in early 2026 that ended weeks of direct military conflict between the United States and Iran. Considered a significant but fragile turning point in the region."
+            data-link="https://en.wikipedia.org/wiki/2026_Iran_war_ceasefire"
+            data-link-label="Read about it on Wikipedia"
+            data-img="https://web-cdnprod.aa.com.tr/uploads/Contents/2026/02/05/thumbs_b_c_d11117df00de73f5ca2a0d4d579b0a52.jpg?v=203706"
+          >
+            2026 US-Iran War Ceasefire
+          </span>
+          already knows the backstory. Some people need a sentence. Some people
+          need a paragraph. And if I write for the person who needs the
+          paragraph, I lose the attention of the person who doesn't. For a while
+          I just accepted that as a tax you pay for writing about complicated
+          things with a great amount of implied knowledge.
+        </p>
+
+        <p>
+          I thought about footnotes first. Real ones, the kind that stack up at
+          the bottom of the page. I like how they look in books, there is
+          something serious about them, something that signals you did the work.
+          But on a website they break the reading experience badly. You click a
+          little superscript number, the page jumps to the bottom, you lose your
+          place, and now you have to scroll back up. Nobody does that twice. I
+          also considered inline tooltips using the HTML
+          <span
+            class="hover-info"
+            data-title="title attribute"
+            data-desc="A native HTML attribute that shows a small browser tooltip on hover. Functional but visually inconsistent across browsers and completely useless on mobile."
+          >
+            title attribute
+          </span>
+          but those are inconsistent across browsers and invisible on mobile,
+          which is where a lot of people actually read. Neither option solved
+          the problem. They just moved it.
+        </p>
+
+        <p>
+          What I actually wanted was something that lived inside the sentence
+          without interrupting it. Hover over a word and a small card appears.
+          Don't hover and the sentence is exactly as it was. The card could hold
+          a title, a short description, a link for the reader who wants to go
+          deeper, and optionally an image if the thing being explained is
+          visual. On mobile, where hovering doesn't exist, a tap locks the card
+          open and an X closes it. Simple. I spent a few hours building it and
+          this article is the first place it lives.
+        </p>
+
+        <p>
+          The highlighted phrases are in crimson, the same color this site has
+          always used for anything that means something. The card that appears
+          is dark, minimal, consistent with the rest of the design. I tried a
+          few variations where the card had more personality and animation but
+          they all looked wrong. This one looks like it belongs here, which is
+          the only test that matters.
+        </p>
+
+        <p>
+          Going back to that Kratom article, the difference is already clear to
+          me. Terms like
+          <span
+            class="hover-info"
+            data-title="Mitragyna speciosa"
+            data-desc="The scientific name for the Kratom plant. A member of the coffee family, it grows naturally across Thailand, Malaysia, and Indonesia and has been used in traditional medicine for generations."
+            data-link="https://en.wikipedia.org/wiki/Mitragyna_speciosa"
+            data-link-label="Read on Wikipedia"
+            data-img="https://upload.wikimedia.org/wikipedia/commons/thumb/b/bd/Mitragyna_speciosa111.JPG/960px-Mitragyna_speciosa111.JPG"
+          >
+            Mitragyna speciosa
+          </span>
+          or references to specific regulatory agencies no longer need a
+          parenthetical. The reader who wants the context can get it. The reader
+          who doesn't can keep moving. The writing gets to be writing again
+          instead of a glossary wearing a paragraph's clothing.
+        </p>
+
+        <p>
+          I don't know yet how much I'll use these. Probably not in every
+          article and definitely not on every other word. Overuse would defeat
+          the purpose, if everything is highlighted, nothing is. But for the
+          pieces where I'm covering events, substances, legislation, or anything
+          else that carries a lot of assumed knowledge, this feels like the
+          right tool. I'm glad I built it instead of just complaining about the
+          problem.
+        </p>
+      </div>
+
+      <details class="sources">
+        <summary>Sources</summary>
+        <ul>
+          <li>
+            <a href="https://en.wikipedia.org/wiki/Kratom" target="_blank"
+              >Wikipedia — Kratom</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://en.wikipedia.org/wiki/Mitragyna_speciosa"
+              target="_blank"
+              >Wikipedia — Mitragyna speciosa</a
+            >
+          </li>
+          <li>
+            <a
+              href="https://en.wikipedia.org/wiki/2026_Iran_war_ceasefire"
+              target="_blank"
+              >Wikipedia — 2026 US-Iran War Ceasefire</a
+            >
+          </li>
+        </ul>
+      </details>
+
+      <a href="../articles.html" class="back-link">← All articles</a>
+    </main>
+
+    <script src="../js/main.js"></script>
+  </body>
+</html>

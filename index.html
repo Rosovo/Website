@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Rosovo — writings, games, and whatever else."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Rosovo" />
+    <meta
+      property="og:description"
+      content="Writings, games, and whatever else by Rosovo."
+    />
+    <meta property="og:url" content="https://rosovo.org/" />
+    <meta
+      property="og:image"
+      content="https://rosovo.org/images/RosovoLogo.jpg"
+    />
+    <title>Rosovo</title>
+    <link rel="icon" href="images/RosovoLogo.jpg" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <style>
+      .hero {
+        padding-top: 5rem;
+        padding-bottom: 4rem;
+      }
+      .hero-name {
+        font-family: var(--mono);
+        font-size: clamp(48px, 10vw, 80px);
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        color: var(--text);
+        line-height: 1;
+        display: inline-block;
+      }
+      .hero-name::after {
+        content: "|";
+        color: var(--red);
+        margin-left: 3px;
+        animation: blink 1.1s step-end infinite;
+      }
+      .hero-sub {
+        font-size: 14px;
+        color: var(--text-dim);
+        margin-top: 1.5rem;
+      }
+      .hero-divider {
+        width: 32px;
+        height: 1px;
+        background: var(--red);
+        margin: 2rem 0;
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="articles.html">Articles</a>
+        <a href="games.html">Games</a>
+        <a href="contact.html">Contact</a>
+        <a href="about.html">About</a>
+      </div>
+      <a href="index.html" class="logo">ROSOVO</a>
+    </nav>
+
+    <main>
+      <div class="hero">
+        <div class="hero-name fade-in">ROSOVO</div>
+
+        <div class="hero-sub fade-in">Here's what I've been up to</div>
+        <div class="hero-divider fade-in"></div>
+
+        <div class="hero-articles" data-home-feed></div>
+      </div>
+    </main>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>

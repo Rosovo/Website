@@ -1,0 +1,78 @@
+[
+  {
+    "id": "hover-info-cards",
+    "kind": "article",
+    "title": "I Built Hover-Info Cards So My Writing Can Breathe",
+    "tag": "Field Notes",
+    "date": "2026-06-28",
+    "dateLabel": "June 28, 2026",
+    "path": "articles/hover-info-cards.html",
+    "description": "How and why I built inline hover-info cards for contextual writing."
+  },
+  {
+    "id": "building-rosovo",
+    "kind": "article",
+    "title": "Building Rosovo.org and What It Did to My Motivation",
+    "tag": "Essay",
+    "date": "2026-06-27",
+    "dateLabel": "June 27, 2026",
+    "path": "articles/building-rosovo.org-and-what-it-did-to-my-motivation.html",
+    "description": "A reflection on building Rosovo.org and how the process changed my motivation."
+  },
+  {
+    "id": "site-live-note",
+    "kind": "note",
+    "title": "The website Rosovo.org has been created!",
+    "tag": "IT'S ALIVE",
+    "date": "2026-06-27",
+    "dateLabel": "June 27, 2026"
+  },
+  {
+    "id": "war-affordable",
+    "kind": "article",
+    "title": "War is More Affordable Than Ever",
+    "tag": "Analysis",
+    "date": "2026-05-19",
+    "dateLabel": "May 19, 2026",
+    "path": "articles/war-is-more-affordable-than-ever.html",
+    "description": "An analysis of low-cost drone warfare and the global strategic shift it has triggered."
+  },
+  {
+    "id": "kratom-essay",
+    "kind": "article",
+    "title": "What I Learned Selling a Drug That Isn't One",
+    "tag": "Field Notes",
+    "date": "2026-05-01",
+    "dateLabel": "May 1, 2026",
+    "path": "articles/what-i-learned-selling-a-drug-that-isn't-one.html",
+    "description": "First-person observations on kratom, legality, labeling, and contradiction."
+  },
+  {
+    "id": "m4sh",
+    "kind": "music",
+    "title": "M4SH",
+    "tag": "Music",
+    "date": "2026-01-01",
+    "dateLabel": "Jan 1, 2026",
+    "audioSrc": "music/M4SH.mp3"
+  },
+  {
+    "id": "art-that-sucks",
+    "kind": "article",
+    "title": "The Importance of Making Art That Sucks",
+    "tag": "Essay",
+    "date": "2025-12-27",
+    "dateLabel": "Dec 27, 2025",
+    "path": "articles/the-importance-of-making-art-that-sucks.html",
+    "description": "Why making bad work is a necessary part of creating good work."
+  },
+  {
+    "id": "blue-blade",
+    "kind": "music",
+    "title": "Blue Blade",
+    "tag": "Music",
+    "date": "2025-12-22",
+    "dateLabel": "Dec 22, 2025",
+    "audioSrc": "music/Blue Blade.mp3"
+  }
+]

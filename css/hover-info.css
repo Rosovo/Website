@@ -1,0 +1,220 @@
+/* ============================================================
+   hover-info.css — rosovo.org inline popover component
+   ============================================================
+
+   USAGE — wrap any phrase in a <span> with class="hover-info":
+
+   <span class="hover-info"
+     data-title    = "Card heading"
+     data-desc     = "One or two sentences shown under the title."
+     data-link     = "https://example.com"
+     data-link-label = "Read more"
+     data-img      = "images/optional-image.jpg">
+     your highlighted phrase
+   </span>
+
+   ATTRIBUTES
+     data-title       required   heading shown in the card
+     data-desc        required   short description text
+     data-link        optional   URL for the "learn more" link
+     data-link-label  optional   link text (defaults to "Learn more ↗")
+     data-img         optional   path/URL to image or gif (omit for text-only card)
+
+   BEHAVIOR
+     hover  — card appears above the phrase (flips below if near top of viewport)
+     click  — locks the card open; X button or clicking outside dismisses it
+
+    
+   ============================================================ */
+
+.hover-info {
+  position: relative;
+  display: inline;
+  color: #c0392b;
+  border-bottom: 1px solid rgba(192, 57, 43, 0.4);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.hover-info:hover,
+.hover-info.locked {
+  color: #e84c3d;
+  border-bottom-color: rgba(232, 76, 61, 0.7);
+}
+
+/* -- Card container -- */
+
+.hover-info__card {
+  --hi-shift: 0px;
+  --hi-arrow-offset: 0px;
+  position: absolute;
+  bottom: calc(100% + 10px);
+  left: 50%;
+  transform: translateX(calc(-50% + var(--hi-shift))) translateY(4px);
+  width: 320px;
+  background: #1a1a1a;
+  border: 1px solid #2a2a2a;
+  border-radius: 10px;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease;
+  z-index: 9999;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(192, 57, 43, 0.15);
+}
+
+.hover-info:hover .hover-info__card,
+.hover-info.locked .hover-info__card {
+  opacity: 1;
+  transform: translateX(calc(-50% + var(--hi-shift))) translateY(0);
+  pointer-events: auto;
+}
+
+/* Flip upward to downward when near top of viewport */
+.hover-info__card.flip {
+  bottom: auto;
+  top: calc(100% + 10px);
+  transform: translateX(calc(-50% + var(--hi-shift))) translateY(-4px);
+}
+
+.hover-info:hover .hover-info__card.flip,
+.hover-info.locked .hover-info__card.flip {
+  transform: translateX(calc(-50% + var(--hi-shift))) translateY(0);
+}
+
+/* -- Card internals -- */
+
+.hover-info__body {
+  display: flex;
+  flex-direction: row;
+}
+
+.hover-info__text-col {
+  flex: 1;
+  padding: 14px 14px 12px 14px;
+  min-width: 0;
+}
+
+.hover-info__title {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #eee;
+  margin: 0 0 5px 0;
+  line-height: 1.3;
+}
+
+.hover-info__desc {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  color: #888;
+  margin: 0 0 10px 0;
+  line-height: 1.5;
+}
+
+.hover-info__link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  color: #c0392b;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  opacity: 0.85;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  transition: opacity 0.15s;
+}
+
+.hover-info__link:hover {
+  opacity: 1;
+}
+
+/* -- Image column -- */
+
+.hover-info__img-col {
+  width: 96px;
+  
+  flex-shrink: 0;
+  background: #222;
+}
+
+.hover-info__img-col img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.hover-info__img-col.no-img {
+  display: none;
+}
+
+/* -- Close button (only visible when locked) -- */
+
+.hover-info__close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 18px;
+  height: 18px;
+  background: #2a2a2a;
+  border: none;
+  border-radius: 50%;
+  color: #666;
+  font-size: 10px;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  transition: background 0.15s, color 0.15s;
+  z-index: 1;
+}
+
+.hover-info.locked .hover-info__close {
+  display: flex;
+}
+
+.hover-info__close:hover {
+  background: #c0392b;
+  color: #fff;
+}
+
+/* -- Arrow pointer -- */
+
+.hover-info__arrow {
+  position: absolute;
+  bottom: -6px;
+  left: calc(50% + var(--hi-arrow-offset));
+  transform: translateX(-50%);
+  width: 10px;
+  height: 6px;
+  overflow: hidden;
+}
+
+.hover-info__arrow::before {
+  content: '';
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: #1a1a1a;
+  border-right: 1px solid #2a2a2a;
+  border-bottom: 1px solid #2a2a2a;
+}
+
+.hover-info__card.flip .hover-info__arrow {
+  bottom: auto;
+  top: -6px;
+}
+
+.hover-info__card.flip .hover-info__arrow::before {
+  top: auto;
+  bottom: -6px;
+  border-right: none;
+  border-bottom: none;
+  border-left: 1px solid #2a2a2a;
+  border-top: 1px solid #2a2a2a;
+}
