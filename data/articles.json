@@ -1,5 +1,15 @@
 [
   {
+    "id": "10-dollars-to-hate-someone",
+    "kind": "article",
+    "title": "$10 to Hate Someone",
+    "tag": "Field Notes",
+    "date": "2026-06-29",
+    "dateLabel": "June 29, 2026",
+    "path": "articles/10-dollars-to-hate-someone.html",
+    "description": "A parlay goes wrong, Ronaldo takes the blame, and somewhere in the middle of it all, something starts to feel less like a game."
+  },
+  {
     "id": "hover-info-cards",
     "kind": "article",
     "title": "I Built Hover-Info Cards So My Writing Can Breathe",
