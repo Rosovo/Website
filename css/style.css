@@ -81,8 +81,8 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 1.25rem;
-  min-height: 56px;
+  padding: 0 0.75rem;
+  min-height: 50px;
   gap: 0.75rem;
 }
 
@@ -182,7 +182,7 @@ main {
 
 .hero-name {
   font-family: var(--mono);
-  font-size: clamp(48px, 10vw, 80px);
+  font-size: clamp(76px, 16vw, 138px);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text);
@@ -266,12 +266,29 @@ main {
 .featured-label {
   position: relative;
   z-index: 1;
+  display: inline-block;
   font-family: var(--mono);
-  font-size: 10px;
-  letter-spacing: 0.12em;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--text-dim);
-  margin-bottom: 0.7rem;
+  color: transparent;
+  background: linear-gradient(
+    90deg,
+    #f7e7b0 0%,
+    #fffdf5 18%,
+    #d7b95f 42%,
+    #fff8de 68%,
+    #f2d98d 100%
+  );
+  background-size: 240% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  padding: 0.03rem 0;
+  margin-bottom: 0.55rem;
+  animation: featuredLabelShine 8s ease-in-out infinite;
+  text-shadow: 0 0 8px rgba(255, 233, 171, 0.1);
 }
 
 .featured-title {
@@ -336,6 +353,19 @@ main {
   50% {
     opacity: 0.56;
     transform: translate3d(-12%, 9%, 0) scale(1.18);
+  }
+}
+
+@keyframes featuredLabelShine {
+  0%,
+  100% {
+    background-position: 0% 50%;
+    text-shadow: 0 0 8px rgba(255, 233, 171, 0.08);
+  }
+
+  50% {
+    background-position: 100% 50%;
+    text-shadow: 0 0 12px rgba(255, 244, 209, 0.16);
   }
 }
 
@@ -864,8 +894,9 @@ a.game-card:focus-visible {
 
 @media (max-width: 860px) {
   nav {
-    padding: 0.55rem 1rem;
+    padding: 0.4rem 0.7rem;
     flex-wrap: wrap;
+    min-height: 48px;
   }
 
   .menu-toggle {
@@ -958,7 +989,7 @@ a.game-card:focus-visible {
   }
 
   .hero-name {
-    font-size: clamp(40px, 13vw, 56px);
+    font-size: clamp(58px, 20vw, 86px);
   }
 
   .music-player__controls {
@@ -989,5 +1020,13 @@ a.game-card:focus-visible {
     animation: none;
     opacity: 0.26;
     transform: none;
+  }
+
+  .featured-label {
+    animation: none;
+    color: #e8d8a7;
+    background: none;
+    -webkit-text-fill-color: initial;
+    text-shadow: none;
   }
 }
