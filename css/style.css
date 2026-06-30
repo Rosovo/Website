@@ -227,6 +227,55 @@ main {
   margin-bottom: 3rem;
 }
 
+.article-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-bottom: 1.3rem;
+}
+
+.article-filter-pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  border: 0.5px solid var(--border);
+  border-radius: 999px;
+  background: transparent;
+  padding: 0.32rem 0.62rem;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s, background-color 0.15s;
+}
+
+.article-filter-pill:hover {
+  color: var(--text);
+  border-color: var(--red-soft);
+}
+
+.article-filter-pill.is-active {
+  color: var(--red);
+  border-color: var(--red-soft);
+  background: color-mix(in srgb, var(--red) 14%, transparent);
+}
+
+.article-filter-count {
+  margin-left: auto;
+  align-self: center;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  white-space: nowrap;
+}
+
+.article-filter-pill:focus-visible,
+.article-tag--filter:focus-visible {
+  outline: 1px solid var(--red);
+  outline-offset: 2px;
+}
+
 .article-item {
   display: flex;
   align-items: baseline;
@@ -258,11 +307,33 @@ main {
   min-width: 95px;
 }
 
+.article-tag--filter {
+  cursor: pointer;
+  user-select: none;
+}
+
+.article-tag--filter:hover {
+  color: color-mix(in srgb, var(--red) 80%, var(--text));
+}
+
+.article-main {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  flex: 1;
+  min-width: 0;
+}
+
 .article-title {
   font-size: 14px;
   color: var(--text-muted);
-  flex: 1;
   transition: color 0.15s;
+}
+
+.article-summary {
+  font-size: 12px;
+  color: var(--text-dim);
+  line-height: 1.45;
 }
 
 .article-date {

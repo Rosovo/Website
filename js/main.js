@@ -13,6 +13,8 @@ const audioState = {
     volume: 0.8
 };
 
+const ALL_ARTICLES_FILTER = 'all';
+
 document.addEventListener('DOMContentLoaded', async () => {
     setActiveNavLink();
     initNavEnhancements();
@@ -238,14 +240,29 @@ function renderArticlesFeed(entries) {
     }
 
     container.innerHTML = articleEntries.map(entry => renderFeedEntry(entry, true)).join('');
+    setupArticlesFilters(container, articleEntries);
 }
 
 function renderFeedEntry(entry, listOnlyArticles) {
     if (entry.kind === 'article' || entry.kind === 'game') {
+        const categorySlug = toCategorySlug(entry.tag || '');
+        const summary = listOnlyArticles && entry.kind === 'article' && entry.description
+            ? `<span class="article-summary">${entry.description}</span>`
+            : '';
+        const tagMarkup = listOnlyArticles && entry.kind === 'article'
+            ? `<span class="article-tag article-tag--filter" data-filter-tag="${categorySlug}" role="button" tabindex="0" aria-label="Filter by ${entry.tag}">${entry.tag}</span>`
+            : `<span class="article-tag">${entry.tag}</span>`;
+        const categoryData = listOnlyArticles && entry.kind === 'article'
+            ? ` data-category="${categorySlug}"`
+            : '';
+
         return `
-            <a href="${rootPrefix}${entry.path}" class="article-item fade-in">
-                <span class="article-tag">${entry.tag}</span>
-                <span class="article-title">${entry.title}</span>
+            <a href="${rootPrefix}${entry.path}" class="article-item fade-in"${categoryData}>
+                ${tagMarkup}
+                <span class="article-main">
+                    <span class="article-title">${entry.title}</span>
+                    ${summary}
+                </span>
                 <span class="article-date">${entry.dateLabel}</span>
                 <span class="article-arrow">→</span>
             </a>
@@ -256,7 +273,9 @@ function renderFeedEntry(entry, listOnlyArticles) {
         return `
             <div class="article-item article-item--note fade-in">
                 <span class="article-tag">${entry.tag}</span>
-                <span class="article-title">${entry.title}</span>
+                <span class="article-main">
+                    <span class="article-title">${entry.title}</span>
+                </span>
                 <span class="article-date">${entry.dateLabel}</span>
                 <span class="article-arrow">☺</span>
             </div>
@@ -482,4 +501,111 @@ function articleNavLink(label, entry) {
             <span class="article-nav-title">${entry.title}</span>
         </a>
     `;
+}
+
+function toCategorySlug(tag) {
+    return String(tag)
+        .toLowerCase()
+        .trim()
+        .replace(/[^a-z0-9]+/g, '-')
+        .replace(/^-+|-+$/g, '');
+}
+
+function readFilterFromHash(validFilters) {
+    const fromHash = window.location.hash.replace('#', '').toLowerCase();
+    return validFilters.has(fromHash) ? fromHash : ALL_ARTICLES_FILTER;
+}
+
+function setFilterHash(filter) {
+    const path = `${window.location.pathname}${window.location.search}`;
+    if (filter === ALL_ARTICLES_FILTER) {
+        window.history.replaceState({}, '', path);
+        return;
+    }
+    window.history.replaceState({}, '', `${path}#${filter}`);
+}
+
+function setupArticlesFilters(container, articleEntries) {
+    const filtersHost = document.querySelector('[data-articles-filters]');
+    if (!filtersHost) {
+        return;
+    }
+
+    const tags = Array.from(new Set(articleEntries.map(entry => entry.tag)));
+    const categoryByTag = new Map(tags.map(tag => [tag, toCategorySlug(tag)]));
+
+    filtersHost.innerHTML = [
+        `<button type="button" class="article-filter-pill is-active" data-articles-filter="${ALL_ARTICLES_FILTER}">All</button>`,
+        ...tags.map(tag => `<button type="button" class="article-filter-pill" data-articles-filter="${categoryByTag.get(tag)}">${tag}</button>`),
+        '<span class="article-filter-count" data-articles-filter-count></span>'
+    ].join('');
+
+    const items = Array.from(container.querySelectorAll('[data-category]'));
+    const pills = Array.from(filtersHost.querySelectorAll('[data-articles-filter]'));
+    const countEl = filtersHost.querySelector('[data-articles-filter-count]');
+    const validFilters = new Set([ALL_ARTICLES_FILTER, ...Array.from(categoryByTag.values())]);
+    let activeFilter = readFilterFromHash(validFilters);
+
+    const applyFilter = filter => {
+        activeFilter = filter;
+        let shownCount = 0;
+
+        items.forEach(item => {
+            const matches = filter === ALL_ARTICLES_FILTER || item.dataset.category === filter;
+            item.style.display = matches ? '' : 'none';
+            if (matches) {
+                shownCount += 1;
+            }
+        });
+
+        pills.forEach(pill => {
+            const isActive = pill.dataset.articlesFilter === filter;
+            pill.classList.toggle('is-active', isActive);
+            pill.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+        });
+
+        if (countEl) {
+            const noun = shownCount === 1 ? 'article' : 'articles';
+            countEl.textContent = `${shownCount} ${noun} shown`;
+        }
+
+        setFilterHash(filter);
+    };
+
+    filtersHost.addEventListener('click', event => {
+        const pill = event.target.closest('[data-articles-filter]');
+        if (!pill) {
+            return;
+        }
+        const nextFilter = pill.dataset.articlesFilter || ALL_ARTICLES_FILTER;
+        applyFilter(nextFilter === activeFilter ? ALL_ARTICLES_FILTER : nextFilter);
+    });
+
+    container.addEventListener('click', event => {
+        const tag = event.target.closest('[data-filter-tag]');
+        if (!tag) {
+            return;
+        }
+
+        event.preventDefault();
+        const nextFilter = tag.dataset.filterTag || ALL_ARTICLES_FILTER;
+        applyFilter(nextFilter === activeFilter ? ALL_ARTICLES_FILTER : nextFilter);
+    });
+
+    container.addEventListener('keydown', event => {
+        const tag = event.target.closest('[data-filter-tag]');
+        if (!tag) {
+            return;
+        }
+
+        if (event.key !== 'Enter' && event.key !== ' ') {
+            return;
+        }
+
+        event.preventDefault();
+        const nextFilter = tag.dataset.filterTag || ALL_ARTICLES_FILTER;
+        applyFilter(nextFilter === activeFilter ? ALL_ARTICLES_FILTER : nextFilter);
+    });
+
+    applyFilter(activeFilter);
 }
