@@ -26,8 +26,13 @@
         width: min(100%, 560px);
         margin: 0 auto;
         padding: 1.2rem 1rem 1.4rem;
-        border: 1px solid #242424;
-        background: linear-gradient(180deg, #121212 0%, #101010 100%);
+        border: 1px solid var(--border);
+        border-radius: 10px;
+        background: linear-gradient(
+          180deg,
+          color-mix(in srgb, var(--surface) 92%, var(--bg)) 0%,
+          color-mix(in srgb, var(--surface-soft) 90%, var(--bg)) 100%
+        );
         box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
         display: flex;
         flex-direction: column;
@@ -245,6 +250,36 @@
         .word-key[data-key="BACKSPACE"] {
           min-width: 56px;
           font-size: 9px;
+        }
+      }
+
+      @media (max-width: 420px) {
+        .word-shell {
+          border-radius: 8px;
+          padding: 0.8rem 0.45rem 0.95rem;
+        }
+
+        .word-grid,
+        .word-status {
+          width: min(100%, 340px);
+        }
+
+        .word-key-row {
+          gap: 0.2rem;
+        }
+
+        .word-key {
+          flex: 1 1 0;
+          min-width: 0;
+          height: 38px;
+          padding: 0 0.18rem;
+          font-size: 10px;
+        }
+
+        .word-key[data-key="ENTER"],
+        .word-key[data-key="BACKSPACE"] {
+          flex: 1.45 1 0;
+          min-width: 0;
         }
       }
     </style>
