@@ -182,12 +182,13 @@ main {
 
 .hero-name {
   font-family: var(--mono);
-  font-size: clamp(76px, 16vw, 138px);
+  font-size: clamp(90px, 20vw, 170px);
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--text);
   line-height: 1;
-  display: inline-block;
+  display: block;
+  width: 100%;
 }
 
 .hero-name::after {
@@ -989,7 +990,7 @@ a.game-card:focus-visible {
   }
 
   .hero-name {
-    font-size: clamp(58px, 20vw, 86px);
+    font-size: clamp(68px, 20vw, 98px);
   }
 
   .music-player__controls {
