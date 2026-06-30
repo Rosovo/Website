@@ -507,12 +507,25 @@ nav,
   border: 0.5px solid var(--border);
   border-radius: 8px;
   padding: 1.5rem 1rem;
-  cursor: pointer;
+  cursor: default;
   transition: border-color 0.15s;
+}
+
+a.game-card {
+  cursor: pointer;
 }
 
 .game-card:hover {
   border-color: var(--red);
+}
+
+a.game-card:focus-visible {
+  outline: 2px solid var(--red);
+  outline-offset: 2px;
+}
+
+.game-card--soon {
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
 }
 
 .game-card-title {
@@ -712,6 +725,41 @@ nav,
 
   main {
     padding: 2.7rem 1.1rem 4.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  main {
+    padding: 2.1rem 0.85rem 3.4rem;
+  }
+
+  .music-player {
+    padding: 0.72rem 0;
+  }
+
+  .music-player__sub {
+    flex-wrap: wrap;
+    gap: 0.38rem;
+  }
+
+  .music-player__time,
+  .article-date {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 380px) {
+  .page-title {
+    font-size: 24px;
+  }
+
+  .hero-name {
+    font-size: clamp(40px, 13vw, 56px);
+  }
+
+  .music-player__controls {
+    width: 100%;
+    justify-content: space-between;
   }
 }
 

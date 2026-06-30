@@ -1,4 +1,4 @@
-ROSOVO ARTICLE PUBLISHING GUIDE
+GUIDES AND REMINDERS FOR ROSOVO TO MAINTAIN THE WEBSITE
 Last updated: 2026-06-29
 
 OVERVIEW
@@ -164,3 +164,33 @@ RECOMMENDED WORKFLOW FOR EACH NEW ARTICLE
 5) Add JSON entry.
 6) Load page + index + articles and verify visuals.
 7) Update sitemap.xml.
+
+================================================================
+VERSION ROLLOVER (WHEN ARCHIVING A RELEASE)
+================================================================
+When you archive version X.YY and continue development on the next version:
+1) Create archive snapshot for X.YY in /Archive.
+2) Rename the active project folder from "Rosovo.org X.YY" to "Rosovo.org X.(YY+1)".
+3) Update visible site version label(s), then commit and push.
+
+Example:
+- Archived: Rosovo.org 1.30
+- Active folder should be renamed to: Rosovo.org 1.31
+
+================================================================
+FOR PEOPLE BORROWING THIS CODE
+================================================================
+If you are adapting this site for your own project:
+1) Replace branding references:
+  - Site title text and logo files.
+  - Domain values in og:url and sitemap.xml.
+2) Keep data/articles.json as your source of truth for feed ordering.
+3) Update navigation links if you remove or rename pages.
+4) Keep relative paths consistent when moving files between folders.
+5) Keep robots.txt and sitemap.xml aligned with your final production domain.
+
+Useful reminders:
+- Test in both light and dark themes before publishing.
+- Test mobile layout for games and article pages.
+- Use descriptive commit messages tied to visible site changes.
+- Archive each release snapshot before version rollover.

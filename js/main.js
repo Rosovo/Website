@@ -1,3 +1,5 @@
+normalizeUrlPath();
+
 const isArticlePage = window.location.pathname.includes('/articles/');
 const rootPrefix = isArticlePage ? '../' : '';
 
@@ -19,20 +21,50 @@ document.addEventListener('DOMContentLoaded', async () => {
     ensureFooter();
 
     const entries = await loadEntries();
+    renderHomeFeed(entries);
+    renderArticlesFeed(entries);
+    enhanceArticlePage(entries);
+
     if (entries.length) {
-        renderHomeFeed(entries);
-        renderArticlesFeed(entries);
-        enhanceArticlePage(entries);
         setupMusicPlayers();
         observeFadeInElements();
     }
 });
 
+function normalizePath(pathname) {
+    let path = pathname || '/';
+
+    if (path.endsWith('/index.html')) {
+        path = `${path.slice(0, -11)}/`;
+    } else if (path.endsWith('.html')) {
+        path = path.slice(0, -5);
+    }
+
+    if (path !== '/' && path.endsWith('/')) {
+        path = path.slice(0, -1);
+    }
+
+    return path || '/';
+}
+
+function normalizeUrlPath() {
+    const currentPath = window.location.pathname;
+    const cleanPath = normalizePath(currentPath);
+
+    if (cleanPath !== currentPath) {
+        const next = `${cleanPath}${window.location.search}${window.location.hash}`;
+        window.history.replaceState({}, '', next);
+    }
+}
+
 function setActiveNavLink() {
-    const path = window.location.pathname.split('/').pop() || 'index.html';
+    const currentPath = normalizePath(window.location.pathname);
+
     document.querySelectorAll('.nav-links a').forEach(link => {
-        const href = (link.getAttribute('href') || '').split('/').pop();
-        if (href === path) {
+        const href = link.getAttribute('href') || '';
+        const hrefPath = normalizePath(new URL(href, window.location.href).pathname);
+
+        if (hrefPath === currentPath) {
             link.classList.add('active');
         }
     });
@@ -185,6 +217,11 @@ function renderHomeFeed(entries) {
         return;
     }
 
+    if (!entries.length) {
+        container.innerHTML = '<div class="placeholder-block fade-in"><span>Feed unavailable</span>Unable to load posts right now.</div>';
+        return;
+    }
+
     container.innerHTML = entries.map(entry => renderFeedEntry(entry, false)).join('');
 }
 
@@ -195,6 +232,11 @@ function renderArticlesFeed(entries) {
     }
 
     const articleEntries = entries.filter(entry => entry.kind === 'article');
+    if (!articleEntries.length) {
+        container.innerHTML = '<div class="placeholder-block fade-in"><span>Nothing here yet</span>Articles will appear once entries are available.</div>';
+        return;
+    }
+
     container.innerHTML = articleEntries.map(entry => renderFeedEntry(entry, true)).join('');
 }
 
@@ -395,9 +437,12 @@ function enhanceArticlePage(entries) {
         meta.appendChild(node);
     }
 
-    const articleEntries = entries.filter(entry => entry.kind === 'article');
-    const currentPath = window.location.pathname.replace(/^\//, '');
-    const currentIndex = articleEntries.findIndex(entry => entry.path === currentPath);
+    const articleEntries = entries.filter(entry => entry.kind === 'article' && entry.path);
+    const currentPath = normalizePath(window.location.pathname);
+    const currentIndex = articleEntries.findIndex(entry => {
+        const candidate = normalizePath(`/${String(entry.path).replace(/^\/+/, '')}`);
+        return candidate === currentPath;
+    });
     if (currentIndex < 0) {
         return;
     }
@@ -425,7 +470,11 @@ function enhanceArticlePage(entries) {
 }
 
 function articleNavLink(label, entry) {
-    const localHref = entry.path.split('/').pop();
+    const localHref = String(entry.path || '').split('/').pop();
+    if (!localHref) {
+        return '';
+    }
+
     const arrow = label === 'Newer' ? '←' : '→';
     return `
         <a href="${localHref}">

@@ -129,3 +129,31 @@
     grid-template-columns: 1fr;
   }
 }
+
+@media (max-width: 480px) {
+  .article-header {
+    padding-top: 3rem;
+    margin-bottom: 2.25rem;
+  }
+
+  .article-body {
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  .back-link {
+    margin-top: 1.6rem;
+    letter-spacing: 0.08em;
+  }
+}
+
+@media (max-width: 380px) {
+  .article-headline {
+    font-size: clamp(23px, 7vw, 30px);
+  }
+
+  .article-meta {
+    font-size: 11px;
+    gap: 0.35rem;
+  }
+}
