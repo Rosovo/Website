@@ -209,10 +209,32 @@ async function loadEntries() {
         if (!Array.isArray(data)) {
             return [];
         }
-        return data;
+        return sortEntriesByDateDesc(data);
     } catch (_error) {
         return [];
     }
+}
+
+function sortEntriesByDateDesc(entries) {
+    return entries
+        .map((entry, index) => ({ entry, index }))
+        .sort((a, b) => {
+            const dateA = Date.parse(a.entry?.date || '');
+            const dateB = Date.parse(b.entry?.date || '');
+            const validA = Number.isFinite(dateA);
+            const validB = Number.isFinite(dateB);
+
+            if (validA && validB && dateA !== dateB) {
+                return dateB - dateA;
+            }
+
+            if (validA !== validB) {
+                return validA ? -1 : 1;
+            }
+
+            return a.index - b.index;
+        })
+        .map(item => item.entry);
 }
 
 function renderHomeFeed(entries) {

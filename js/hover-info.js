@@ -39,7 +39,7 @@ function initHoverInfo() {
     const desc      = el.dataset.desc      || '';
     const link      = el.dataset.link      || '';
     const linkLabel = el.dataset.linkLabel || 'Learn more';
-    const img       = el.dataset.img       || '';
+    const img       = el.dataset.img || el.dataset.image || '';
 
     const hasImg = img.trim().length > 0;
     const safeLink = sanitizeHoverInfoUrl(link.trim());
