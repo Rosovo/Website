@@ -50,6 +50,7 @@
   {
     "id": "war-affordable",
     "kind": "article",
+    "featured": true,
     "title": "War is More Affordable Than Ever",
     "tag": "Analysis",
     "date": "2026-05-19",

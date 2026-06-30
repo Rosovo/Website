@@ -23,7 +23,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     ensureFooter();
 
     const entries = await loadEntries();
+    renderHomeFeatured(entries);
     renderHomeFeed(entries);
+    renderArticlesFeatured(entries);
     renderArticlesFeed(entries);
     enhanceArticlePage(entries);
 
@@ -241,6 +243,61 @@ function renderArticlesFeed(entries) {
 
     container.innerHTML = articleEntries.map(entry => renderFeedEntry(entry, true)).join('');
     setupArticlesFilters(container, articleEntries);
+}
+
+function getFeaturedArticle(entries) {
+    return entries.find(entry => entry.kind === 'article' && entry.featured === true && entry.path) || null;
+}
+
+function renderHomeFeatured(entries) {
+    const container = document.querySelector('[data-home-featured]');
+    if (!container) {
+        return;
+    }
+
+    const featured = getFeaturedArticle(entries);
+    if (!featured) {
+        container.innerHTML = '';
+        return;
+    }
+
+    container.innerHTML = renderFeaturedCard(featured, 'home');
+}
+
+function renderArticlesFeatured(entries) {
+    const container = document.querySelector('[data-articles-featured]');
+    if (!container) {
+        return;
+    }
+
+    const featured = getFeaturedArticle(entries);
+    if (!featured) {
+        container.innerHTML = '';
+        return;
+    }
+
+    container.innerHTML = renderFeaturedCard(featured, 'articles');
+}
+
+function renderFeaturedCard(entry, context) {
+    const scopeClass = context === 'home' ? 'featured-slot--home' : 'featured-slot--articles';
+
+    return `
+        <section class="featured-slot fade-in ${scopeClass}" aria-label="Featured article">
+            <div class="featured-card">
+                <div class="featured-label">Featured</div>
+                <a href="${rootPrefix}${entry.path}" class="featured-link-wrap">
+                    <span class="article-tag">${entry.tag}</span>
+                    <h2 class="featured-title">${entry.title}</h2>
+                    <p class="featured-summary">${entry.description || ''}</p>
+                    <div class="featured-meta">
+                        <span class="article-date">${entry.dateLabel}</span>
+                        <span class="featured-link">Read article →</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+    `;
 }
 
 function renderFeedEntry(entry, listOnlyArticles) {
