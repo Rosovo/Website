@@ -84,6 +84,21 @@
         color: #c0392b;
       }
 
+      .word-countdown {
+        margin: 0 0 1.05rem;
+        font-family: var(--mono);
+        font-size: 10px;
+        letter-spacing: 0.11em;
+        text-transform: uppercase;
+        color: var(--text-dim);
+        text-align: center;
+      }
+
+      .word-countdown strong {
+        color: #c0392b;
+        font-weight: 600;
+      }
+
       .word-grid {
         display: grid;
         grid-template-rows: repeat(6, 1fr);
@@ -318,6 +333,10 @@
           <span id="wordWins" class="word-score-win">0</span>
           <span>-</span>
           <span id="wordLosses" class="word-score-loss">0</span>
+        </div>
+
+        <div id="wordCountdown" class="word-countdown" aria-live="polite">
+          New word in <strong>00:00:00</strong>
         </div>
 
         <div
@@ -1550,6 +1569,7 @@
       const wordKeyboardEl = document.getElementById("wordKeyboard");
       const winsEl = document.getElementById("wordWins");
       const lossesEl = document.getElementById("wordLosses");
+      const wordCountdownEl = document.getElementById("wordCountdown");
 
       const validWordCache = new Map();
       const keyElements = new Map();
@@ -1558,6 +1578,7 @@
       let game = buildInitialGame();
 
       updateScoreboard();
+      startResetCountdown();
       renderKeyboard();
       renderBoard();
       applyKeyboardColors();
@@ -1671,6 +1692,47 @@
       function updateScoreboard() {
         winsEl.textContent = String(stats.wins);
         lossesEl.textContent = String(stats.losses);
+      }
+
+      function startResetCountdown() {
+        if (!wordCountdownEl) {
+          return;
+        }
+
+        const updateCountdown = () => {
+          const now = new Date();
+          const nextReset = new Date(
+            now.getFullYear(),
+            now.getMonth(),
+            now.getDate() + 1,
+            0,
+            0,
+            0,
+            0,
+          );
+          const remainingMs = Math.max(0, nextReset.getTime() - now.getTime());
+          const totalSeconds = Math.floor(remainingMs / 1000);
+          const hours = String(Math.floor(totalSeconds / 3600)).padStart(
+            2,
+            "0",
+          );
+          const minutes = String(
+            Math.floor((totalSeconds % 3600) / 60),
+          ).padStart(2, "0");
+          const seconds = String(totalSeconds % 60).padStart(2, "0");
+
+          wordCountdownEl.innerHTML =
+            "New word in <strong>" +
+            hours +
+            ":" +
+            minutes +
+            ":" +
+            seconds +
+            "</strong>";
+        };
+
+        updateCountdown();
+        window.setInterval(updateCountdown, 1000);
       }
 
       function getTodayKey() {
