@@ -471,21 +471,115 @@ function enhanceArticlePage(entries) {
 
     let nav = document.querySelector('[data-article-nav]');
     const backLink = document.querySelector('.back-link');
+    const footerTarget = backLink ? (backLink.closest('.article-footer-row') || backLink) : null;
     if (!nav && backLink) {
         nav = document.createElement('div');
         nav.className = 'article-nav fade-in';
         nav.setAttribute('data-article-nav', '');
-        backLink.parentElement.insertBefore(nav, backLink);
+        footerTarget.parentElement.insertBefore(nav, footerTarget);
     }
 
-    if (!nav) {
+    if (nav) {
+        nav.innerHTML = `
+            ${newer ? articleNavLink('Newer', newer) : ''}
+            ${older ? articleNavLink('Older', older) : ''}
+        `;
+    }
+
+    setupArticleShareButton();
+}
+
+function setupArticleShareButton() {
+    const backLink = document.querySelector('.back-link');
+    if (!backLink) {
         return;
     }
 
-    nav.innerHTML = `
-        ${newer ? articleNavLink('Newer', newer) : ''}
-        ${older ? articleNavLink('Older', older) : ''}
-    `;
+    let footerRow = backLink.closest('.article-footer-row');
+    if (!footerRow) {
+        footerRow = document.createElement('div');
+        footerRow.className = 'article-footer-row fade-in';
+        backLink.parentElement.insertBefore(footerRow, backLink);
+        footerRow.appendChild(backLink);
+    }
+
+    let shareButton = footerRow.querySelector('[data-article-share]');
+    if (!shareButton) {
+        shareButton = document.createElement('button');
+        shareButton.type = 'button';
+        shareButton.className = 'article-share-button';
+        shareButton.setAttribute('data-article-share', '');
+        shareButton.setAttribute('aria-label', 'Share article');
+        shareButton.innerHTML = `
+            <span class="article-share-label" aria-hidden="true">Share</span>
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M14 3L21 10L14 17" />
+                <path d="M21 10H10C6.7 10 4 12.7 4 16V21" />
+            </svg>
+            <span class="article-share-sr">Share article</span>
+        `;
+        footerRow.appendChild(shareButton);
+    }
+
+    if (shareButton.dataset.boundShare === 'true') {
+        return;
+    }
+    shareButton.dataset.boundShare = 'true';
+
+    let feedbackTimer = null;
+    const showFeedback = text => {
+        shareButton.setAttribute('data-feedback', text);
+        shareButton.classList.add('is-feedback-visible');
+        if (feedbackTimer) {
+            window.clearTimeout(feedbackTimer);
+        }
+        feedbackTimer = window.setTimeout(() => {
+            shareButton.classList.remove('is-feedback-visible');
+        }, 1300);
+    };
+
+    const copyToClipboard = async text => {
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+            await navigator.clipboard.writeText(text);
+            return;
+        }
+
+        const scratch = document.createElement('textarea');
+        scratch.value = text;
+        scratch.setAttribute('readonly', '');
+        scratch.style.position = 'fixed';
+        scratch.style.top = '-9999px';
+        document.body.appendChild(scratch);
+        scratch.select();
+        const copied = document.execCommand('copy');
+        document.body.removeChild(scratch);
+        if (!copied) {
+            throw new Error('Copy command was rejected');
+        }
+    };
+
+    shareButton.addEventListener('click', async () => {
+        const url = window.location.href;
+        const title = (document.querySelector('.article-headline') || document.querySelector('h1'))?.textContent?.trim() || document.title;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({ title, url });
+                return;
+            } catch (error) {
+                if (error && error.name === 'AbortError') {
+                    return;
+                }
+            }
+        }
+
+        try {
+            await copyToClipboard(url);
+            showFeedback('Copied!');
+        } catch (_error) {
+            showFeedback('Copy failed');
+        }
+    });
 }
 
 function articleNavLink(label, entry) {

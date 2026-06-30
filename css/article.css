@@ -107,6 +107,14 @@
   line-height: 1.4;
 }
 
+.article-footer-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
 .back-link {
   display: inline-flex;
   align-items: center;
@@ -116,12 +124,95 @@
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-dim);
-  margin-top: 2rem;
   transition: color 0.15s;
 }
 
 .back-link:hover {
   color: var(--text);
+}
+
+.article-share-button {
+  position: relative;
+  min-height: 34px;
+  padding: 0 0.6rem;
+  border-radius: 999px;
+  border: 0.5px solid var(--border);
+  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  color: var(--red);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  transition: border-color 0.15s, background-color 0.15s, transform 0.15s;
+  flex-shrink: 0;
+}
+
+.article-share-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.article-share-button svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.article-share-button:hover {
+  border-color: var(--red-soft);
+  background: color-mix(in srgb, var(--red) 12%, var(--surface));
+  transform: translateY(-1px);
+}
+
+.article-share-button:focus-visible {
+  outline: 1px solid var(--red);
+  outline-offset: 2px;
+}
+
+.article-share-button::after {
+  content: attr(data-feedback);
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: color-mix(in srgb, var(--surface-soft) 90%, var(--bg));
+  border: 0.5px solid var(--border);
+  border-radius: 6px;
+  padding: 0.2rem 0.4rem;
+  opacity: 0;
+  transform: translateY(2px);
+  transition: opacity 0.15s, transform 0.15s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.article-share-button.is-feedback-visible::after {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.article-share-sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (max-width: 700px) {
@@ -142,8 +233,12 @@
   }
 
   .back-link {
-    margin-top: 1.6rem;
     letter-spacing: 0.08em;
+  }
+
+  .article-footer-row {
+    margin-top: 1.6rem;
+    flex-wrap: wrap;
   }
 }
 
