@@ -82,7 +82,7 @@ function initHoverInfo() {
 
       const arrowMark = document.createElement('span');
       arrowMark.setAttribute('aria-hidden', 'true');
-      arrowMark.textContent = 'â†-';
+      arrowMark.textContent = '->';
       linkEl.appendChild(document.createTextNode(' '));
       linkEl.appendChild(arrowMark);
 

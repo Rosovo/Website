@@ -1,7 +1,7 @@
 {
   "name": "rosovo-site-tools",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Local tooling for Rosovo static site",
   "scripts": {
     "generate:hex": "node scripts/generate-hex-puzzles.js"

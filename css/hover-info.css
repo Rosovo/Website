@@ -17,7 +17,7 @@
      data-title       required   heading shown in the card
      data-desc        required   short description text
      data-link        optional   URL for the "learn more" link
-     data-link-label  optional   link text (defaults to "Learn more â†-")
+    data-link-label  optional   link text (defaults to "Learn more ->")
      data-img         optional   path/URL to image or gif (omit for text-only card)
 
    BEHAVIOR
