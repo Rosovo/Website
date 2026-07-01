@@ -1,5 +1,5 @@
 /* ============================================================
-   hover-info.js — rosovo.org inline popover component
+   hover-info.js â€” rosovo.org inline popover component
    ============================================================
    Call initHoverInfo() after the DOM is ready, or add this
    script at the bottom of <body> (it runs automatically).
@@ -53,7 +53,7 @@ function initHoverInfo() {
     const closeBtn = document.createElement('button');
     closeBtn.className = 'hover-info__close';
     closeBtn.setAttribute('aria-label', 'Close info card');
-    closeBtn.textContent = '✕';
+    closeBtn.textContent = 'âœ•';
 
     const body = document.createElement('div');
     body.className = 'hover-info__body';
@@ -82,7 +82,7 @@ function initHoverInfo() {
 
       const arrowMark = document.createElement('span');
       arrowMark.setAttribute('aria-hidden', 'true');
-      arrowMark.textContent = '↗';
+      arrowMark.textContent = 'â†-';
       linkEl.appendChild(document.createTextNode(' '));
       linkEl.appendChild(arrowMark);
 

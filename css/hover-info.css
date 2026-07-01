@@ -1,8 +1,8 @@
 /* ============================================================
-   hover-info.css — rosovo.org inline popover component
+   hover-info.css â€” rosovo.org inline popover component
    ============================================================
 
-   USAGE — wrap any phrase in a <span> with class="hover-info":
+   USAGE â€” wrap any phrase in a <span> with class="hover-info":
 
    <span class="hover-info"
      data-title    = "Card heading"
@@ -17,12 +17,12 @@
      data-title       required   heading shown in the card
      data-desc        required   short description text
      data-link        optional   URL for the "learn more" link
-     data-link-label  optional   link text (defaults to "Learn more ↗")
+     data-link-label  optional   link text (defaults to "Learn more â†-")
      data-img         optional   path/URL to image or gif (omit for text-only card)
 
    BEHAVIOR
-     hover  — card appears above the phrase (flips below if near top of viewport)
-     click  — locks the card open; X button or clicking outside dismisses it
+     hover  â€” card appears above the phrase (flips below if near top of viewport)
+     click  â€” locks the card open; X button or clicking outside dismisses it
 
     
    ============================================================ */
